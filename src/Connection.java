@@ -1,8 +1,14 @@
+/**
+ * Represents a connection between 2 nodes.
+ */
 public class Connection {
 
     private Node from;
     private Node to;
 
+    /**
+     * How "strong" this connection is. Can be positive or negative.
+     */
     private double weight;
 
     public Connection(Node from, Node to) {

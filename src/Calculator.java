@@ -1,6 +1,10 @@
 import java.util.Comparator;
 import java.util.List;
 
+/**
+ * Wraps all the neurons in a neural network together, so we can pass in an
+ * array of data, and get out an array of predicted data.
+ */
 public class Calculator {
 
     private List<Node> inputNodes;
@@ -16,6 +20,13 @@ public class Calculator {
         hiddenNodes.sort(Comparator.comparingDouble(Node::getX));
     }
 
+    /**
+     * Inserts the <code>inputValues</code> into the neural network, then
+     * predicts all neuron values using {@link Node#predict()}.
+     *
+     * @param inputValues The array of inputs to feed into the neural network.
+     * @return The array of outputs from the output neurons.
+     */
     public double[] predict(double[] inputValues) {
 
         // Step 1: Fill in the values for the inputs
