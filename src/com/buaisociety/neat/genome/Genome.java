@@ -16,7 +16,7 @@ import java.util.List;
  * (the genetic information that describes the neural network). Interestingly, we can
  * use the genotype to evolve.
  */
-public class Genome {
+public class Genome implements Cloneable {
 
     private final Neat neat;
     private final List<NodeGene> nodeGenes;
@@ -66,5 +66,19 @@ public class Genome {
 
     public void mutate() {
         // TODO: Implement mutation
+    }
+
+    @Override
+    public Genome clone() {
+        try {
+            Genome clone = (Genome) super.clone();
+            clone.nodeGenes.clear();
+            clone.nodeGenes.addAll(this.nodeGenes);
+            clone.connectionGenes.clear();
+            clone.connectionGenes.addAll(this.connectionGenes);
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 }

@@ -26,6 +26,12 @@ public class ConnectionGene implements Cloneable {
      */
     private double weight;
 
+    /**
+     * Whether this connection is enabled or not. If disabled, this connection
+     * will not be used to contribute values in the neurons.
+     */
+    private boolean enabled = true;
+
     public ConnectionGene(Neat neat, int id, NodeGene from, NodeGene to) {
         if (from.getX() >= to.getX()) {
             throw new IllegalArgumentException("from.getX() must be to the left of to.getX()");
@@ -59,6 +65,14 @@ public class ConnectionGene implements Cloneable {
 
     public void setWeight(double weight) {
         this.weight = weight;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
     @Override

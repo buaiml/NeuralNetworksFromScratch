@@ -9,6 +9,8 @@ public class NodeGene implements Cloneable {
     private Neat neat;
     private int id;
 
+    private double bias;
+
     // Just represents the position of this neuron. This is effectively
     private double x;
     private double y;
@@ -48,6 +50,22 @@ public class NodeGene implements Cloneable {
 
     public void setY(double y) {
         this.y = y;
+    }
+
+    public double getBias() {
+        return bias;
+    }
+
+    public void setBias(double bias) {
+        this.bias = bias;
+    }
+
+    public boolean isInput() {
+        return this.id < neat.getNumInputNodes();
+    }
+
+    public boolean isOutput() {
+        return this.id >= neat.getNumInputNodes() && this.id < neat.getNumInputNodes() + neat.getNumOutputNodes();
     }
 
     @Override

@@ -1,5 +1,9 @@
 package com.buaisociety.neat.calculator;
 
+import com.buaisociety.neat.genome.Genome;
+import com.buaisociety.neat.genome.NodeGene;
+
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -13,10 +17,21 @@ public class Calculator {
     private List<Node> hiddenNodes;
     private List<Node> outputNodes;
 
-    public Calculator(List<Node> inputNodes, List<Node> hiddenNodes, List<Node> outputNodes) {
-        this.inputNodes = inputNodes;
-        this.hiddenNodes = hiddenNodes;
-        this.outputNodes = outputNodes;
+    public Calculator(Genome genome) {
+        this.inputNodes = new ArrayList<>();
+        this.hiddenNodes = new ArrayList<>();
+        this.outputNodes = new ArrayList<>();
+
+        for (NodeGene nodeGene : genome.getNodeGenes()) {
+            Node node = new Node(nodeGene.getX());
+            if (nodeGene.isInput()) {
+                inputNodes.add(node);
+            } else if (nodeGene.isOutput()) {
+                outputNodes.add(node);
+            } else {
+                hiddenNodes.add(node);
+            }
+        }
 
         // Sort left -> right
         hiddenNodes.sort(Comparator.comparingDouble(Node::getX));

@@ -1,5 +1,6 @@
 package com.buaisociety.neat;
 
+import com.buaisociety.neat.calculator.Node;
 import com.buaisociety.neat.genome.ConnectionGene;
 import com.buaisociety.neat.genome.Genome;
 import com.buaisociety.neat.genome.NodeGene;
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * The manging class for the NEAT algorithm. This class is responsible for
@@ -30,11 +32,14 @@ public class Neat {
     private int numInputNodes;
     private int numOutputNodes;
 
+    private Random random;
     private List<NodeGene> nodes = new ArrayList<>();
     private Map<ConnectionGene, ConnectionGene> connections = new HashMap<>();
+    private Map<ConnectionGene, Integer> replacementNodes = new HashMap<>();
     private List<Client> clients = new ArrayList<>();
 
     public Neat(int numInputNodes, int numOutputNodes, int numClients) {
+        this.random = new Random(1111);
         this.numInputNodes = numInputNodes;
         this.numOutputNodes = numOutputNodes;
 
@@ -57,6 +62,22 @@ public class Neat {
             Client client = new Client(this, i);
             clients.add(client);
         }
+    }
+
+    public Random getRandom() {
+        return random;
+    }
+
+    public int getNumInputNodes() {
+        return numInputNodes;
+    }
+
+    public int getNumOutputNodes() {
+        return numOutputNodes;
+    }
+
+    public List<Client> getClients() {
+        return clients;
     }
 
     /**
@@ -92,6 +113,17 @@ public class Neat {
 
         // Clone the connection to avoid genomes modifying the original connection's values.
         return connection.clone();
+    }
+
+    public NodeGene newReplacementConnection(ConnectionGene connection) {
+        if (replacementNodes.containsKey(connection)) {
+            int id = replacementNodes.get(connection);
+            return nodes.get(id);
+        }
+
+        NodeGene node = newNode();
+        replacementNodes.put(connection, node.getId());
+        return node;
     }
 
     public Genome newGenome() {
