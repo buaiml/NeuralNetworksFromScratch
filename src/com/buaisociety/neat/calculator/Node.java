@@ -76,7 +76,22 @@ public class Node {
         }
 
         // Step 2: Activation, to make the result non-linear
-        double activated = Math.max(0, sum);
+        double activated = activate(sum);
         setValue(activated);
+    }
+
+    /**
+     * The "activation function" basically serves to clamp the value of the sum
+     * to a "reasonable value," typically between 0 and 1.
+     *
+     * @param sum The sum of all incoming values.
+     * @return The activated value.
+     */
+    private double activate(double sum) {
+        // ReLU activation function
+        // return Math.max(0, sum);
+
+        // Modified Sigmoid activation function
+        return 1 / (1 + Math.exp(-4.9 * sum));
     }
 }
