@@ -1,3 +1,5 @@
+package com.buaisociety.neat.calculator;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,7 +64,7 @@ public class Node {
      * Predicts the value of this neuron based on the values coming in from the
      * previous neurons and their connections to this neuron.
      *
-     * <p>Note: Remember to call {@link Node#predict()} on all neurons to the
+     * <p>Note: Remember to call this method on all neurons to the
      * left of this neuron before calling predict here.
      */
     public void predict() {

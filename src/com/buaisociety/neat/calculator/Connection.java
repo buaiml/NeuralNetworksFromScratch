@@ -1,3 +1,5 @@
+package com.buaisociety.neat.calculator;
+
 /**
  * Represents a connection between 2 nodes.
  */
