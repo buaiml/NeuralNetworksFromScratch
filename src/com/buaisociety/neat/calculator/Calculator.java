@@ -1,11 +1,14 @@
 package com.buaisociety.neat.calculator;
 
+import com.buaisociety.neat.genome.ConnectionGene;
 import com.buaisociety.neat.genome.Genome;
 import com.buaisociety.neat.genome.NodeGene;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Wraps all the neurons in a neural network together, so we can pass in an
@@ -22,8 +25,12 @@ public class Calculator {
         this.hiddenNodes = new ArrayList<>();
         this.outputNodes = new ArrayList<>();
 
+        Map<Integer, Node> nodeCache = new HashMap<>();
         for (NodeGene nodeGene : genome.getNodeGenes()) {
             Node node = new Node(nodeGene.getX());
+            node.setBias(nodeGene.getBias());
+            nodeCache.put(nodeGene.getId(), node);
+
             if (nodeGene.isInput()) {
                 inputNodes.add(node);
             } else if (nodeGene.isOutput()) {
@@ -35,6 +42,14 @@ public class Calculator {
 
         // Sort left -> right
         hiddenNodes.sort(Comparator.comparingDouble(Node::getX));
+
+        for (ConnectionGene connectionGene : genome.getConnectionGenes()) {
+            Node from = nodeCache.get(connectionGene.getFrom().getId());
+            Node to = nodeCache.get(connectionGene.getTo().getId());
+            Connection connection = from.connect(to);
+
+            connection.setWeight(connectionGene.getWeight());
+        }
     }
 
     /**

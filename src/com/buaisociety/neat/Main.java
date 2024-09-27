@@ -9,11 +9,15 @@ public class Main {
 
         int generations = 0;
         while (true) {
-            System.out.println("Generation " + generations++);
-
             // Evaluate each client
             for (Client client : neat.getClients()) {
                 updateScore(client);
+            }
+
+            if (generations % 100 == 0) {
+                System.out.println("Generation " + generations);
+                System.out.println("Average score: " + neat.getClients().stream().mapToDouble(Client::getScore).average().getAsDouble());
+                System.out.println("Best score: " + neat.getClients().getLast().getScore());
             }
 
             // Check if any client has solved the XOR problem
@@ -26,6 +30,7 @@ public class Main {
 
             // Evolve the population
             neat.evolve();
+            generations++;
         }
     }
 

@@ -14,6 +14,8 @@ public class MutateAddNode implements Mutation {
 
         ConnectionGene randomConnection = genome.getConnectionGenes().get(rand.nextInt(genome.getConnectionGenes().size()));
         NodeGene middle = genome.getNeat().newReplacementConnection(randomConnection);
+        if (genome.getNodeGenes().contains(middle))
+            return;
 
         ConnectionGene a = genome.getNeat().newConnection(randomConnection.getFrom(), middle);
         ConnectionGene b = genome.getNeat().newConnection(middle, randomConnection.getTo());

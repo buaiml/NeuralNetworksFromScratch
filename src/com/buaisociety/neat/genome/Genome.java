@@ -18,9 +18,16 @@ import java.util.List;
  */
 public class Genome implements Cloneable {
 
+    private static final Mutation[] MUTATIONS = new Mutation[] {
+        new MutateAddConnection(),
+        new MutateAddNode(),
+        new MutateWeights(),
+        new MutateBiases(),
+    };
+
     private final Neat neat;
-    private final List<NodeGene> nodeGenes;
-    private final List<ConnectionGene> connectionGenes;
+    private List<NodeGene> nodeGenes;
+    private List<ConnectionGene> connectionGenes;
 
     /**
      * Creates an empty Genome, with no nodes or connections.
@@ -65,16 +72,18 @@ public class Genome implements Cloneable {
     }
 
     public void mutate() {
-        // TODO: Implement mutation
+        for (Mutation mutation : MUTATIONS) {
+            mutation.mutate(this);
+        }
     }
 
     @Override
     public Genome clone() {
         try {
             Genome clone = (Genome) super.clone();
-            clone.nodeGenes.clear();
+            clone.nodeGenes = new ArrayList<>();
             clone.nodeGenes.addAll(this.nodeGenes);
-            clone.connectionGenes.clear();
+            clone.connectionGenes = new ArrayList<>();
             clone.connectionGenes.addAll(this.connectionGenes);
             return clone;
         } catch (CloneNotSupportedException e) {

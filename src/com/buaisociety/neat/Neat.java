@@ -1,6 +1,5 @@
 package com.buaisociety.neat;
 
-import com.buaisociety.neat.calculator.Node;
 import com.buaisociety.neat.genome.ConnectionGene;
 import com.buaisociety.neat.genome.Genome;
 import com.buaisociety.neat.genome.NodeGene;
@@ -122,6 +121,8 @@ public class Neat {
         }
 
         NodeGene node = newNode();
+        node.setX((connection.getFrom().getX() + connection.getTo().getX()) / 2.0);
+        node.setY((connection.getFrom().getY() + connection.getTo().getY()) / 2.0);
         replacementNodes.put(connection, node.getId());
         return node;
     }

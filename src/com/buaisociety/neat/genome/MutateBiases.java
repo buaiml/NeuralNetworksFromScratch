@@ -20,7 +20,7 @@ public class MutateBiases implements Mutation {
             if (rand.nextDouble() > 0.80) {
                 node.setBias(rand.nextDouble() * 2 - 1);
             } else {
-                double shift = rand.nextDouble() * 0.4 - 0.2;
+                double shift = rand.nextDouble() * 0.8 - 0.4;
                 node.setBias(node.getBias() + shift);
             }
 

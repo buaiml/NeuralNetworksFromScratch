@@ -13,6 +13,7 @@ public class Client {
     private Neat neat;
     private int id;
 
+    private int timeTillCanKill = 3;
     private Genome genome;
     private Calculator calculator;
     private double score;
@@ -54,6 +55,18 @@ public class Client {
 
     public void setScore(double score) {
         this.score = score;
+    }
+
+    public boolean tryKill() {
+        if (timeTillCanKill > 0) {
+            timeTillCanKill--;
+            return false;
+        }
+
+        timeTillCanKill = 50;
+        genome = null;
+        calculator = null;
+        return true;
     }
 
     /**
