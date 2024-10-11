@@ -12,6 +12,7 @@ public class Client {
 
     private Neat neat;
     private int id;
+    private Species species;
 
     private int timeTillCanKill = 3;
     private Genome genome;
@@ -21,7 +22,7 @@ public class Client {
     public Client(Neat neat, int id) {
         this.neat = neat;
         this.id = id;
-        this.genome = neat.newGenome();
+        this.genome = neat.newGenome(false);
     }
 
     public Neat getNeat() {
@@ -30,6 +31,14 @@ public class Client {
 
     public int getId() {
         return id;
+    }
+
+    public Species getSpecies() {
+        return species;
+    }
+
+    public void setSpecies(Species species) {
+        this.species = species;
     }
 
     public Genome getGenome() {
@@ -55,18 +64,6 @@ public class Client {
 
     public void setScore(double score) {
         this.score = score;
-    }
-
-    public boolean tryKill() {
-        if (timeTillCanKill > 0) {
-            timeTillCanKill--;
-            return false;
-        }
-
-        timeTillCanKill = 50;
-        genome = null;
-        calculator = null;
-        return true;
     }
 
     /**

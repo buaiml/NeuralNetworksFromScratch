@@ -37,6 +37,10 @@ public class Neat {
     private Map<ConnectionGene, ConnectionGene> connections = new HashMap<>();
     private Map<ConnectionGene, Integer> replacementNodes = new HashMap<>();
     private List<Client> clients = new ArrayList<>();
+    private List<Species> allSpecies = new ArrayList<>();
+
+    private int generationNumber = 0;
+    private int speciesCounter = 0;
 
     public Neat(int numInputNodes, int numOutputNodes, int numClients) {
         this.random = new Random(1111);
@@ -62,6 +66,8 @@ public class Neat {
             Client client = new Client(this, i);
             clients.add(client);
         }
+
+        sortIntoSpecies();
     }
 
     public Random getRandom() {
@@ -128,7 +134,7 @@ public class Neat {
         return node;
     }
 
-    public Genome newGenome() {
+    public Genome newGenome(boolean forceEmpty) {
         Genome genome = new Genome(this);
         for (int i = 0; i < numInputNodes + numOutputNodes; i++) {
             // The nodes already exist, since the input and output cached nodes
@@ -138,19 +144,39 @@ public class Neat {
         }
 
         // Fully connect the input nodes to the output nodes
-        for (int i = 0; i < numInputNodes; i++) {
-            for (int j = numInputNodes; j < numInputNodes + numOutputNodes; j++) {
-                NodeGene from = this.nodes.get(i);
-                NodeGene to = this.nodes.get(j);
-                ConnectionGene connection = new ConnectionGene(this, connections.size(), from, to);
-                genome.addConnectionGene(connection);
+        if (!forceEmpty) {
+            for (int i = 0; i < numInputNodes; i++) {
+                for (int j = numInputNodes; j < numInputNodes + numOutputNodes; j++) {
+                    NodeGene from = this.nodes.get(i);
+                    NodeGene to = this.nodes.get(j);
+                    ConnectionGene connection = new ConnectionGene(this, connections.size(), from, to);
+                    genome.addConnectionGene(connection);
+                }
             }
         }
 
         return genome;
     }
 
+    public void sortIntoSpecies() {
+        // TODO: reset all existing species
+
+        // TODO: Sort clients into species if they don't already have one
+        // TODO: Create new ones as needed
+    }
+
     public void evolve() {
+        sortIntoSpecies();
+        generationNumber++;
+
+        // TODO: Switch over to kill by species instead of by client (remove dead species)
+
+        // TODO: Failsafe if all species go extinct
+
+        // TODO: For each dead client, try to give them a new species
+        // TODO: Force put clients into a random species
+
+
         this.clients.sort(Comparator.comparingDouble(Client::getScore));
 
         int killNum = (int) (0.90 * clients.size());
@@ -161,7 +187,7 @@ public class Neat {
 
             boolean shouldKill = i < killNum;
             if (shouldKill) {
-                client.tryKill();
+                client.setGenome(null);
             }
 
             // Survivors should have their networks copied
