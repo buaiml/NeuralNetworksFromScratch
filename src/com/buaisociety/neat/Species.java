@@ -38,6 +38,30 @@ public class Species {
         return neat;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public Client getBase() {
+        return base;
+    }
+
+    public List<Client> getClients() {
+        return clients;
+    }
+
+    public double getScore() {
+        return score;
+    }
+
+    public int getGenerations() {
+        return generations;
+    }
+
+    public boolean isExtinct() {
+        return isExtinct;
+    }
+
     /**
      * Returns a random client from this species, or null if the species is
      * empty (extinct).
