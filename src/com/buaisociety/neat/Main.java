@@ -1,11 +1,25 @@
 package com.buaisociety.neat;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 public class Main {
 
     public static void main(String[] args) {
+        int trials = 100;
+        int sum = 0;
+        for (int i = 0; i < trials; i++) {
+            int generations = runTest();
+            sum += generations;
+        }
+
+        System.out.println("Average generations: " + sum / trials);
+    }
+
+    public static int runTest() {
         // We're still trying to solve XOR, but this time using NEAT.
         // 2 inputs, 1 output, 100 population size.
         Neat neat = new Neat(2, 1, 100);
+        neat.getRandom().setSeed(ThreadLocalRandom.current().nextLong());
 
         int generations = 0;
         while (true) {
@@ -24,7 +38,7 @@ public class Main {
             for (Client client : neat.getClients()) {
                 if (isPassed(client)) {
                     System.out.println("Solved XOR in " + generations + " generations!");
-                    return;
+                    return generations;
                 }
             }
 

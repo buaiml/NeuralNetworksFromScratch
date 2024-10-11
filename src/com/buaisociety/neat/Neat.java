@@ -5,6 +5,7 @@ import com.buaisociety.neat.genome.Genome;
 import com.buaisociety.neat.genome.NodeGene;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -150,8 +151,40 @@ public class Neat {
     }
 
     public void evolve() {
-        // TODO: Kill off the top half of the population
-        // TODO: For each dead client, create a new client with a mutated genome
+        this.clients.sort(Comparator.comparingDouble(Client::getScore));
+
+        int killNum = (int) (0.90 * clients.size());
+        List<Client> survivors = new ArrayList<>();
+
+        for (int i = 0; i < clients.size(); i++) {
+            Client client = clients.get(i);
+
+            boolean shouldKill = i < killNum;
+            if (shouldKill) {
+                client.tryKill();
+            }
+
+            // Survivors should have their networks copied
+            if (client.getGenome() != null) {
+                survivors.add(client);
+            }
+        }
+
+        // Bring them back to life
+        for (int i = 0; i < clients.size(); i++) {
+            Client client = clients.get(i);
+
+            if (client.getGenome() == null) {
+                Client parent = survivors.get(random.nextInt(survivors.size()));
+                Genome revived = parent.getGenome().clone();
+                revived.mutate();
+
+                // Actually revive our client
+                client.setGenome(revived);
+            } else {
+                client.mutate();
+            }
+        }
     }
 
 }

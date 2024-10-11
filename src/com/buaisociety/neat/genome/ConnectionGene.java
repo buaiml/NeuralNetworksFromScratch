@@ -34,7 +34,7 @@ public class ConnectionGene implements Cloneable {
 
     public ConnectionGene(Neat neat, int id, NodeGene from, NodeGene to) {
         if (from.getX() >= to.getX()) {
-            throw new IllegalArgumentException("from.getX() must be to the left of to.getX()");
+            throw new IllegalArgumentException("from.getX() (" + from.getX() + ") must be to the left of to.getX() (" + to.getX() + ")");
         }
 
         this.neat = neat;

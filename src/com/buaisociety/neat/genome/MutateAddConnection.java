@@ -31,8 +31,8 @@ public class MutateAddConnection implements Mutation {
                 to = temp;
             }
 
-            // If the x positions are the same, try again
-            if (Double.compare(from.getX(), to.getX()) == 0) {
+            // If the x positions are the super close, skip
+            if (Math.abs(to.getX() - from.getX()) < 0.0001) {
                 continue;
             }
 
