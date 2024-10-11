@@ -31,7 +31,7 @@ public class Main {
             if (generations % 100 == 0) {
                 System.out.println("Generation " + generations);
                 System.out.println("Average score: " + neat.getClients().stream().mapToDouble(Client::getScore).average().getAsDouble());
-                System.out.println("Best score: " + neat.getClients().getLast().getScore());
+                System.out.println("Best score: " + neat.getClients().get(neat.getClients().size() - 1).getScore());
                 System.out.println("Species: " + neat.getAllSpecies().size());
             }
 
