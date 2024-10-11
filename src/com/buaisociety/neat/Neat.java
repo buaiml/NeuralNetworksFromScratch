@@ -7,6 +7,7 @@ import com.buaisociety.neat.genome.NodeGene;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -84,6 +85,10 @@ public class Neat {
 
     public List<Client> getClients() {
         return clients;
+    }
+
+    public List<Species> getAllSpecies() {
+        return allSpecies;
     }
 
     /**
