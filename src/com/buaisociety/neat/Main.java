@@ -18,7 +18,7 @@ public class Main {
     public static int runTest() {
         // We're still trying to solve XOR, but this time using NEAT.
         // 2 inputs, 1 output, 100 population size.
-        Neat neat = new Neat(2, 1, 100);
+        Neat neat = new Neat(2, 1, 150);
         neat.getRandom().setSeed(ThreadLocalRandom.current().nextLong());
 
         int generations = 0;
@@ -32,6 +32,7 @@ public class Main {
                 System.out.println("Generation " + generations);
                 System.out.println("Average score: " + neat.getClients().stream().mapToDouble(Client::getScore).average().getAsDouble());
                 System.out.println("Best score: " + neat.getClients().getLast().getScore());
+                System.out.println("Species: " + neat.getAllSpecies().size());
             }
 
             // Check if any client has solved the XOR problem

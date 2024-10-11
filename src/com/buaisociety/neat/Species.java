@@ -87,7 +87,7 @@ public class Species {
      */
     public boolean matches(Client client) {
         double distance = Genome.distance(base.getGenome(), client.getGenome());
-        return distance < 2.0;  // TODO: This definitely shouldn't be a constant
+        return distance < 4.0;  // TODO: This definitely shouldn't be a constant
     }
 
     /**
@@ -157,7 +157,7 @@ public class Species {
     public void kill(double percentage) {
 
         // Only kill off older species that have yet to innovate
-        int gracePeriod = 10; // TODO: This shouldn't be a constant
+        int gracePeriod = 15; // TODO: This shouldn't be a constant
         if (generations < gracePeriod) {
             return;
         }
@@ -166,7 +166,7 @@ public class Species {
         clients.sort((a, b) -> Double.compare(b.getScore(), a.getScore()));
         int killCount = (int) (percentage * clients.size());
         for (int i = 0; i < killCount; i++) {
-            clients.get(i).setSpecies(null);
+            clients.get(0).setSpecies(null);
             clients.remove(0);
         }
 
